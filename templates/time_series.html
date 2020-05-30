@@ -1,0 +1,130 @@
+<html>
+	<head>
+		<title>COVID Dashboard</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	</head>
+	<style>
+		body{
+			background-color: black;
+		}
+		h3{
+			color: white;
+		}
+		h4 {
+			color: rgb(200, 200, 200)
+		}
+		.content_left{
+			overflow: auto;
+			border: 3px solid #000;
+			width: 48%;
+			float: left;
+		}
+		.content_right{
+			overflow: auto;
+			border: 3px solid #000;
+			width: 48%;
+			float: right;
+		}
+		.footer {
+		   position: fixed;
+		   left: 0;
+		   bottom: 0;
+		   width: 100%;
+		   text-align: center;
+		}
+		input[type=submit] {
+			outline: none;
+			cursor: pointer;
+			border: 1px solid black;
+			border-radius: 4px;
+			padding: 0.4em 1em;
+			background: linear-gradient(to right, rgb(100, 100, 100) 50%, rgb(220, 220, 220) 50%);
+			background-size: 200% 100%;
+			background-position: bottom right;
+    		transition: all 0.3s ease-out;
+		}
+		input[type=submit]:hover {
+			background-position: bottom left;
+			color: white;
+		}
+	</style>
+	<body>
+
+		<nav class="navbar navbar-inverse">
+		  <div class="container-fluid">
+		  	<div class="navbar-header">
+		      <a class="navbar-brand" href="#">COVID Dashboard</a>
+		    </div>
+		    <ul class="nav navbar-nav">
+		      <li><a href="/">Home</a></li>
+		      <li class="active"><a href="time_series">Timeseries</a></li>
+		      <li><a href="geographic">Geographic</a></li>
+		      <li><a href="demographic">Demographic</a></li>
+		      <li><a href="correlation">Correlation</a></li>
+		      <li><a href="hyptesting">Hyp Testing</a></li>
+		    </ul>
+		  </div>
+		</nav>
+
+		<p><h2 align="center"><font color="white">Welcome to COVID Dashboard</font></h2></p>
+		<br><br><br>
+		<div class="row">
+			<div class="col-sm-4 analysis">
+				<p><h3 align="center">Time Series</h3></p>
+				<p><h4 align="center">WorldWide</h4></p>
+				<br>
+				<form action="http://localhost:5000/timeseries" method="POST">
+					<p align="center"><input type="submit" value="Click Here"></p>
+				</form>
+			</div>
+			<div class="col-sm-4 analysis">
+				<p><h3 align="center">Time Series</h3></p>
+				<p><h4 align="center">By Country</h4></p>
+				<form action="http://localhost:5000/timeseries_country" method="POST">
+					<div class="form-input-group row">
+						<div class="col-md-2"></div>
+						<div class="col-md-8">
+				            <select class="form-control selectpicker" data-live-search="true" id="country" name="country">
+				              {% for o in countries %}
+				              <option id = "country" name = "country" data-tokens="{{ o }}" value="{{ o }}">{{ o }}</option>
+				              {% endfor %}
+				            </select>
+				        </div>
+				        <div class="col-md-2"></div>
+				    </div>
+				    <p><h5 align="center"></h5></p>
+				    <p align="center"><input type="submit" value="Click Here"></p>
+				</form>
+			</div>
+			<div class="col-sm-4 analysis">
+				<p><h3 align="center">Time Series</h3></p>
+				<p><h4 align="center">By Date</h4></p>
+				<form action="http://localhost:5000/timeseries_date" method="POST">
+					<div class="form-input-group row">
+						<div class="col-md-2"></div>
+						<div class="col-md-8">
+				            <select class="form-control selectpicker" data-live-search="true" id="date" name="date">
+				              {% for o in dates %}
+				              <option id = "date" name = "date" data-tokens="{{ o }}" value="{{ o }}">{{ o }}</option>
+				              {% endfor %}
+				            </select>
+				        </div>    
+				        <div class="col-md-2"></div>
+				    </div>
+				    <p><h5 align="center"></h5></p>
+				    <p align="center"><input type="submit" value="Click Here"></p>
+				</form>
+			</div>
+		</div>
+		<!--
+		<div class="footer">
+			<p><h3 align="center"><font color="grey">Dashboard created by</h3></p>
+			<p><h3 align="center"><font color="grey">Saket   Rohan   Aleena   Animish   Pritam</h3></p>
+		</div>
+		-->
+	</body>
+</html>

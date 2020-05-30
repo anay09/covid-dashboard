@@ -1,0 +1,31 @@
+<html>
+	<head>
+		<title>COVID Dashboard</title>
+		<style type="text/css">
+			.content_left{
+				overflow: auto;
+				border: 3px solid #000;
+				width: 48%;
+				float: left;
+			}
+			.content_right{
+				overflow: auto;
+				border: 3px solid #000;
+				width: 48%;
+				float: right;
+			}
+		</style>
+	</head>
+	<body>
+		<p><h2 align="center">Welcome to age wise analysis</h2></p>
+		<p><h2 align="center">Showing results for {{ country }}</h2></p>
+		<div class="content_left">
+			<h3 align="center">Confirmed Cases</h3>
+			<img src="data:image/png;base64, {{ plot_url[0] }}" height="500">
+		</div>
+		<div class="content_right">
+			<h3 align="center">Deceased Cases</h3>
+			<img src="data:image/png;base64, {{ plot_url[1] }}" height="500">
+		</div>
+	</body>
+</html>
