@@ -6,8 +6,41 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+	    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">    
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Manrope">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cabin">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Overpass">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tenali+Ramakrishna">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
 	</head>
 	<style>
+		::-webkit-scrollbar {
+			width: 7px;
+		}
+
+		/* Track */
+
+		::-webkit-scrollbar-track {
+			background: rgb(200, 200, 200);
+		}
+
+		/* Handle */
+
+		 ::-webkit-scrollbar-thumb {
+			background: rgb(100, 100, 100);
+		}
+
+		/* Handle on hover */
+
+		 ::-webkit-scrollbar-thumb:hover {
+			background: rgb(70, 70, 70);
+		}
+
 		body{
 			background-color: black;
 		}
@@ -15,8 +48,11 @@
 			color: white;
 		}
 		h4 {
-			color: rgb(200, 200, 200)
+			color: #228866;
+			font-family: 'Lato', sans-serif;
+			font-size: 20px;
 		}
+
 		.content_left{
 			overflow: auto;
 			border: 3px solid #000;
@@ -42,14 +78,82 @@
 			border: 1px solid black;
 			border-radius: 4px;
 			padding: 0.4em 1em;
-			background: linear-gradient(to right, rgb(100, 100, 100) 50%, rgb(220, 220, 220) 50%);
+			background: linear-gradient(to right, rgb(82, 47, 69) 50%, wheat 50%);
 			background-size: 200% 100%;
 			background-position: bottom right;
     		transition: all 0.3s ease-out;
+    		color: rgb(42, 7, 29);
 		}
 		input[type=submit]:hover {
 			background-position: bottom left;
 			color: white;
+		}
+		.nav li a {
+			transition: all 0.1s linear;
+		}
+
+		.nav li a:hover {
+			transform: scaleX(1.05);
+		}
+		hr {
+			margin-top: 0;
+			margin-bottom: 0;
+			margin-left: 0;
+			border: 0.5px solid #886655;
+			animation: lengthen 1s ease-out;
+		}
+
+		@keyframes lengthen {
+			from {
+				width: 0%
+			} to {
+				width: 100%
+			}
+		}
+
+		h3 {
+			font-family: 'Tenali Ramakrishna', sans-serif;
+			color: burlywood;
+			margin-bottom: 0px;
+			font-size: 35px;
+		}
+
+		h5 {
+			font-family: 'Tenali Ramakrishna', sans-serif;
+			color: burlywood;
+			margin-bottom: 0;
+			font-size: 28px;
+			margin-top: 1em;
+		}
+
+		h1 {
+			font-family: 'Manrope', serif;
+		}
+		.sticky-header {
+			position: sticky;
+			top: 0;
+			left: 0;
+			z-index: 10;
+			border-bottom: 2px solid rgb(100, 100, 100);
+		}
+
+		.analysis {
+			border-left: 6px solid rgb(50, 50, 50);
+			background-color: rgb(20, 20, 20);
+			padding: 1em 1em 1.5em 1em;
+		}
+		.test_result {
+			margin-top: 0;
+			color: #eeddbb;
+			/*white-space: nowrap;
+			word-break: break-all;
+			overflow: hidden;
+			animation: typing 1s steps(100, end);*/
+		}
+
+		@keyframes typing {
+			from { width: 0 }
+  			to { width: 100%; }
 		}
 	</style>
 	<body>
@@ -57,7 +161,7 @@
 		<nav class="navbar navbar-inverse">
 		  <div class="container-fluid">
 		  	<div class="navbar-header">
-		      <a class="navbar-brand" href="#">COVID Dashboard</a>
+		      <a class="navbar-brand" style="color: #ffffcc;" href="#">COVID Dashboard</a>
 		    </div>
 		    <ul class="nav navbar-nav">
 		      <li><a href="/">Home</a></li>
@@ -70,22 +174,26 @@
 		  </div>
 		</nav>
 
-		<p><h2 align="center"><font color="white">Welcome to COVID Dashboard</font></h2></p>
-		<br><br><br>
-		<div class="row">
-			<div class="col-sm-6 analysis">
-				<p><h3 align="center">Demographic Analysis</h3></p>
-				<p><h4 align="center">By Age</h4></p>
-				<form action="http://localhost:5000/age" method="post">
-					<p align="center"><input type="submit" value="Click Here"></p>
-				</form>
-			</div>
-			<div class="col-sm-6 analysis">
-				<p><h3 align="center">Demographic Analysis</h3></p>
-				<p><h4 align="center">By Gender</h4></p>
-				<form action="http://localhost:5000/gender" method="post">
-					<p align="center"><input type="submit" value="Click Here"></p>
-				</form>
+		<div class="container">
+			
+			<div class="row" style="margin-top: 10em;">
+				<div class="col-sm-5 analysis">
+					<p><h3 align="center">Demographic Analysis</h3></p>
+					<p><h4 align="center">By Age</h4></p>
+					<form action="http://localhost:5000/age" method="post"><br>
+						<p align="center"><input type="submit" value="Click Here"></p>
+					</form>
+				</div>
+
+				<div class="col-sm-2"></div>
+
+				<div class="col-sm-5 analysis">
+					<p><h3 align="center">Demographic Analysis</h3></p>
+					<p><h4 align="center">By Gender</h4></p><br>
+					<form action="http://localhost:5000/gender" method="post">
+						<p align="center"><input type="submit" value="Click Here"></p>
+					</form>
+				</div>
 			</div>
 		</div>
 		<!--

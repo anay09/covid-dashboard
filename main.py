@@ -119,7 +119,8 @@ def index_page():
 	df = df.rename(columns={"Country/Region":"Country"})
 	new_df = df.groupby(['Country']).max()
 	new_df = new_df.sort_values(by=['Confirmed'], ascending = False).drop(['Date'],axis=1)
-	final_df = new_df.head(20)
+	# final_df = new_df.head(20)
+	final_df = new_df
 	c_list = final_df.index
 
 	return render_template('index.html', column_names = final_df.columns.values, row_data = list(final_df.values.tolist()), country = c_list, zip=zip)
@@ -349,8 +350,7 @@ def hyptesting_age():
 	critical_value = chi2.ppf(p, dof)
 	print('chi=%.6f, critical value=%.6f\n' % (chi, critical_value))
 	if chi > critical_value:
-	    retval = """At %.2f level of significance, we reject the null hypotheses and accept Alternate Hypothesis. 
-	They are dependent.""" % (significance)
+	    retval = """At %.2f level of significance, we reject the null hypotheses and accept Alternate Hypothesis. They are dependent.""" % (significance)
 	else:
 	    retval = """At %.2f level of significance, we accept the null hypotheses. 
 	They are independent.""" % (significance)

@@ -6,8 +6,44 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+	    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.17/css/bootstrap-select.min.css" rel="stylesheet" />
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.17/js/bootstrap-select.min.js"></script>
+
+	    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">    
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Manrope">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cabin">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Overpass">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tenali+Ramakrishna">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
 	</head>
 	<style>
+		::-webkit-scrollbar {
+			width: 7px;
+		}
+
+		/* Track */
+
+		::-webkit-scrollbar-track {
+			background: rgb(200, 200, 200);
+		}
+
+		/* Handle */
+
+		 ::-webkit-scrollbar-thumb {
+			background: rgb(100, 100, 100);
+		}
+
+		/* Handle on hover */
+
+		 ::-webkit-scrollbar-thumb:hover {
+			background: rgb(70, 70, 70);
+		}
+
 		body{
 			background-color: black;
 		}
@@ -15,8 +51,11 @@
 			color: white;
 		}
 		h4 {
-			color: rgb(200, 200, 200)
+			color: #228866;
+			font-family: 'Lato', sans-serif;
+			font-size: 20px;
 		}
+
 		.content_left{
 			overflow: auto;
 			border: 3px solid #000;
@@ -42,14 +81,87 @@
 			border: 1px solid black;
 			border-radius: 4px;
 			padding: 0.4em 1em;
-			background: linear-gradient(to right, rgb(100, 100, 100) 50%, rgb(220, 220, 220) 50%);
+			background: linear-gradient(to right, rgb(82, 47, 69) 50%, wheat 50%);
 			background-size: 200% 100%;
 			background-position: bottom right;
     		transition: all 0.3s ease-out;
+    		color: rgb(42, 7, 29);
 		}
 		input[type=submit]:hover {
 			background-position: bottom left;
 			color: white;
+		}
+		.nav li a {
+			transition: all 0.1s linear;
+		}
+
+		.nav li a:hover {
+			transform: scaleX(1.05);
+		}
+		hr {
+			margin-top: 0;
+			margin-bottom: 0;
+			margin-left: 0;
+			border: 0.5px solid #886655;
+			animation: lengthen 1s ease-out;
+		}
+
+		@keyframes lengthen {
+			from {
+				width: 0%
+			} to {
+				width: 100%
+			}
+		}
+
+		h3 {
+			font-family: 'Tenali Ramakrishna', sans-serif;
+			color: burlywood;
+			margin-bottom: 0px;
+			font-size: 35px;
+		}
+
+		h5 {
+			font-family: 'Tenali Ramakrishna', sans-serif;
+			color: burlywood;
+			margin-bottom: 0;
+			font-size: 28px;
+			margin-top: 1em;
+		}
+
+		h1 {
+			font-family: 'Manrope', serif;
+		}
+		.sticky-header {
+			position: sticky;
+			top: 0;
+			left: 0;
+			z-index: 10;
+			border-bottom: 2px solid rgb(100, 100, 100);
+		}
+
+		.analysis {
+			border-left: 6px solid rgb(50, 50, 50);
+			background-color: rgb(20, 20, 20);
+			padding: 1em 1em 1.5em 1em;
+		}
+		.test_result {
+			margin-top: 0;
+			color: #eeddbb;
+			/*white-space: nowrap;
+			word-break: break-all;
+			overflow: hidden;
+			animation: typing 1s steps(100, end);*/
+		}
+
+		@keyframes typing {
+			from { width: 0 }
+  			to { width: 100%; }
+		}
+
+		.form-input-group {
+			width: 60%;
+			margin: 2em auto;
 		}
 	</style>
 	<body>
@@ -57,7 +169,7 @@
 		<nav class="navbar navbar-inverse">
 		  <div class="container-fluid">
 		  	<div class="navbar-header">
-		      <a class="navbar-brand" href="#">COVID Dashboard</a>
+		      <a class="navbar-brand" style="color: #ffffcc;" href="#">COVID Dashboard</a>
 		    </div>
 		    <ul class="nav navbar-nav">
 		      <li><a href="/">Home</a></li>
@@ -70,54 +182,62 @@
 		  </div>
 		</nav>
 
-		<p><h2 align="center"><font color="white">Welcome to COVID Dashboard</font></h2></p>
-		<br><br><br>
-		<div class="row">
-			<div class="col-sm-4 analysis">
-				<p><h3 align="center">Time Series</h3></p>
-				<p><h4 align="center">WorldWide</h4></p>
-				<br>
-				<form action="http://localhost:5000/timeseries" method="POST">
-					<p align="center"><input type="submit" value="Click Here"></p>
-				</form>
+		<div class="container">
+		
+			<div class="row" style="margin-bottom: 1.5em">
+
+				<div class="col-sm-1"></div>
+
+				<div class="col-sm-10 analysis">
+					<h3 align="center">Time Series</h3>
+					<h4 align="center">WorldWide</h4>
+					<br>
+					<form action="http://localhost:5000/timeseries" method="POST">
+						<p align="center"><input type="submit" value="Click Here"></p>
+					</form>
+				</div>
+
+				<div class="col-sm-1"></div>
+
 			</div>
-			<div class="col-sm-4 analysis">
-				<p><h3 align="center">Time Series</h3></p>
-				<p><h4 align="center">By Country</h4></p>
-				<form action="http://localhost:5000/timeseries_country" method="POST">
-					<div class="form-input-group row">
-						<div class="col-md-2"></div>
-						<div class="col-md-8">
+
+			<div class="row">
+
+				<div class="col-sm-1"></div>
+
+				<div class="col-sm-5 analysis">
+					<h3 align="center">Time Series</h3>
+					<h4 align="center">By Country</h4>
+					<form action="http://localhost:5000/timeseries_country" method="POST">
+						<div class="form-input-group row">
 				            <select class="form-control selectpicker" data-live-search="true" id="country" name="country">
 				              {% for o in countries %}
 				              <option id = "country" name = "country" data-tokens="{{ o }}" value="{{ o }}">{{ o }}</option>
 				              {% endfor %}
 				            </select>
-				        </div>
-				        <div class="col-md-2"></div>
-				    </div>
-				    <p><h5 align="center"></h5></p>
-				    <p align="center"><input type="submit" value="Click Here"></p>
-				</form>
-			</div>
-			<div class="col-sm-4 analysis">
-				<p><h3 align="center">Time Series</h3></p>
-				<p><h4 align="center">By Date</h4></p>
-				<form action="http://localhost:5000/timeseries_date" method="POST">
-					<div class="form-input-group row">
-						<div class="col-md-2"></div>
-						<div class="col-md-8">
+					    </div>
+					    <h5 align="center"></h5>
+					    <p align="center"><input type="submit" value="Click Here"></p>
+					</form>
+				</div>
+
+				<div class="col-sm-5 analysis">
+					<h3 align="center">Time Series</h3>
+					<h4 align="center">By Date</h4>
+					<form action="http://localhost:5000/timeseries_date" method="POST">
+						<div class="form-input-group row">
 				            <select class="form-control selectpicker" data-live-search="true" id="date" name="date">
 				              {% for o in dates %}
 				              <option id = "date" name = "date" data-tokens="{{ o }}" value="{{ o }}">{{ o }}</option>
 				              {% endfor %}
 				            </select>
-				        </div>    
-				        <div class="col-md-2"></div>
-				    </div>
-				    <p><h5 align="center"></h5></p>
-				    <p align="center"><input type="submit" value="Click Here"></p>
-				</form>
+					    </div>
+					    <h5 align="center"></h5>
+					    <p align="center"><input type="submit" value="Click Here"></p>
+					</form>
+				</div>
+
+				<div class="col-sm-1"></div>
 			</div>
 		</div>
 		<!--
@@ -126,5 +246,12 @@
 			<p><h3 align="center"><font color="grey">Saket   Rohan   Aleena   Animish   Pritam</h3></p>
 		</div>
 		-->
+
+		<script>
+			$(function() {
+  				$('.selectpicker').selectpicker('refresh');
+			});
+		</script>
+
 	</body>
 </html>
