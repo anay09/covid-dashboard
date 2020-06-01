@@ -138,7 +138,7 @@ def multi_plot_scatter(df, filename, graph_title, x_title, addAll = True):
 		)
 	)
 
-	fig.write_image("demographic_by_gender.svg")
+	# fig.write_image("demographic_by_gender.svg")
 
 	new_filename = "templates/" + filename
 	fig.write_html(new_filename)
