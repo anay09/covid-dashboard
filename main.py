@@ -179,7 +179,38 @@ def correlation_page():
 	   'aged_65_older', 'aged_70_older', 'gdp_per_capita', 'cvd_death_rate',
 	   'diabetes_prevalence', 'female_smokers', 'male_smokers',
 	   'handwashing_facilities', 'hospital_beds_per_100k']
-	return render_template('correlation.html',attributes=attributes)
+	return render_template('correlation.html', correlation="true", attributes=attributes)
+
+
+@app.route("/correlation_heatmap", methods = ["GET","POST"])
+def heatmap():
+	feature_df = pd.read_csv('Datasets/owid-covid-data.csv')
+	feature_df = feature_df.drop(['iso_code','date','total_tests','new_tests','total_tests_per_thousand','new_tests_per_thousand','new_tests_smoothed','new_tests_smoothed_per_thousand','tests_units','extreme_poverty'],axis=1)
+	feature_df = feature_df.replace(np.nan,0)
+	feature_df = feature_df.groupby(['location']).max()
+	colorscale = [[0, '#edf8fb'], [.3, '#b3cde3'],  [.6, '#8856a7'],  [1, '#810f7c']]
+
+	heatmap = go.Heatmap(z=feature_df.corr(), x=feature_df.columns, y=feature_df.columns, colorscale=colorscale)
+	data = [heatmap]
+	fig = go.Figure(data = data)
+
+	fig.update_layout(
+		title="Heatmap (Correlation b/w all possible pairs of attributes) : ", 
+		yaxis_zeroline=False, 
+		xaxis_zeroline=False,
+		paper_bgcolor='rgba(30, 30, 30, 1)',
+		# xaxis=dict(title= x_title, ticklen= 5, zeroline= False),
+		font=dict(
+			family="Arial",
+			size=13,
+			color="wheat"
+		)
+	)
+
+	new_filename = "templates/" + "heatmap.html"
+	fig.write_html(new_filename)
+
+	return render_template('correlation.html', heatmap="true", filename="heatmap.html")
 
 
 @app.route("/corr_coef", methods = ["GET","POST"])
@@ -201,7 +232,7 @@ def corr_coefficient():
 	column1 = feature_df[result['attribute1']]
 	column2 = feature_df[result['attribute2']]
 	correlation = column1.corr(column2)
-	return render_template('correlation.html', attributes=attributes, coefficient=correlation)
+	return render_template('correlation.html', attributes=attributes, coefficient=correlation, correlation="true")
 
 
 @app.route("/timeseries", methods = ['POST','GET'])

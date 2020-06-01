@@ -181,6 +181,31 @@
 			margin-top: 2em;
 			margin-bottom: 1.5em;
 		}
+
+		h3 span a {
+			color: burlywood;
+			cursor: pointer;
+			text-decoration: none;
+		}
+
+		h3 span:nth-child(2) a {
+			color: burlywood;
+			cursor: pointer;
+			text-decoration: none;
+		}
+
+		h3 span:nth-child(1) a {
+			color: burlywood;
+			cursor: pointer;
+			text-decoration: none;
+		}
+
+		h3 span.active_span a {
+			color: rgb(200, 100, 100);
+			text-decoration: none;
+			cursor: pointer;
+		}
+
 	</style>
 	<body>
 
@@ -194,7 +219,7 @@
 		      <li><a href="time_series">Timeseries</a></li>
 		      <li><a href="geographic">Geographic</a></li>
 		      <li><a href="demographic">Demographic</a></li>
-		      <li class="active"><a href="correlation">Correlation</a></li>
+		      <li class="active"><a href="correlation_heatmap">Correlation</a></li>
 		      <li><a href="hyptesting">Hyp Testing</a></li>
 		    </ul>
 		  </div>
@@ -203,10 +228,18 @@
 		<div class="container">
 
 			<div class="row">
-				
-					<form action="http://localhost:5000/corr_coef" method="POST">
+					<h3 align="left">
 
-						<h3 align="center">Find Correlation</h3><br><br>
+						{% if heatmap %}
+						<span id="heatmap" class="active_span"><a class="switch_link" href="#">Show Heatmap</a></span> | <span id="correlation"><a class="switch_link" href="correlation">Find Correlation</a></span></h3><br>
+						{% else %}
+						<span id="heatmap"><a href="correlation_heatmap" class="switch_link">Show Heatmap</a></span> | <span id="correlation" class="active_span"><a class="switch_link" href="#">Find Correlation</a></span></h3><br><br>
+						{% endif %}
+
+
+				{% if correlation %}
+
+					<form action="http://localhost:5000/corr_coef" method="POST">
 						<div class="col-sm-5 analysis">
 							<h4 align="center">Attribute 1</h4>
 							<div class="form-input-group">
@@ -264,6 +297,14 @@
 
 						<h3 class="test_result" id="test_result" align="center"></h3>
 					</div>
+
+				{% else %}
+
+				<div class="col-md-12" style="margin-top: 0em; margin-left: 0em; padding: 0em; margin-bottom: 4em;">
+					{% include filename %}
+				</div>
+
+				{% endif %}
 			</div>
 		</div>
 		<!--
