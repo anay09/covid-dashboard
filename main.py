@@ -18,94 +18,130 @@ app.secret_key = "password"
 
 
 def multi_plot_line(df, filename, graph_title, x_title, addAll = True):
-    fig = go.Figure()
+	fig = go.Figure()
 
-    for column in df.columns.to_list():
-        fig.add_trace(
-            go.Scatter(
-                x = df.index,
-                y = df[column],
-                name = column
-            )
-        )
+	for column in df.columns.to_list():
+		fig.add_trace(
+			go.Scatter(
+				x = df.index,
+				y = df[column],
+				name = column
+			)
+		)
 
-    button_all = dict(label = 'All',
-                      method = 'update',
-                      args = [{'visible': df.columns.isin(df.columns),
-                               'title': 'All',
-                               'showlegend':True}])
+	button_all = dict(label = 'All',
+					  method = 'update',
+					  args = [{'visible': df.columns.isin(df.columns),
+							   'title': 'All',
+							   'showlegend':True}])
 
-    def create_layout_button(column):
-        return dict(label = column,
-                    method = 'update',
-                    args = [{'visible': df.columns.isin([column]),
-                             'title': column,
-                             'showlegend': True}])
+	def create_layout_button(column):
+		return dict(label = column,
+					method = 'update',
+					args = [{'visible': df.columns.isin([column]),
+							 'title': column,
+							 'showlegend': True}])
 
-    fig.update_layout(
-        updatemenus=[go.layout.Updatemenu(
-            active = 0,
-            buttons = ([button_all] * addAll) + list(df.columns.map(lambda column: create_layout_button(column)))
-            )
-        ],
-        paper_bgcolor='rgba(0,0,0,1)',
-        title = graph_title,
-        xaxis= dict(title= x_title,ticklen= 5,zeroline= False),
-        font=dict(
-            family="Courier New, monospace",
-            size=16,
-            color="gray"
-            )
-    )
+	fig.update_layout(
+		updatemenus=[go.layout.Updatemenu(
+			active = 0,
+			buttons = ([button_all] * addAll) + list(df.columns.map(lambda column: create_layout_button(column)))
+			)
+		],
+		paper_bgcolor='rgba(20,20,20,1)',
+		title = graph_title,
+		xaxis= dict(title= x_title,ticklen= 5,zeroline= False),
+		font=dict(
+			family="Arial",
+			size=15,
+			color="rgb(150, 150, 150)"
+			)
+	)
 
-    new_filename = "templates/" + filename
-    fig.write_html(new_filename)
+	new_filename = "templates/" + filename
+	fig.write_html(new_filename)
 
 
 def multi_plot_bar(df, filename, graph_title, x_title, addAll = True):
-    fig = go.Figure()
+	fig = go.Figure()
 
-    for column in df.columns.to_list():
-        fig.add_trace(
-            go.Bar(
-                x = df.index,
-                y = df[column],
-                name = column
-            )
-        )
+	for column in df.columns.to_list():
+		fig.add_trace(
+			go.Bar(
+				x = df.index,
+				y = df[column],
+				name = column
+			)
+		)
 
-    button_all = dict(label = 'All',
-                      method = 'update',
-                      args = [{'visible': df.columns.isin(df.columns),
-                               'title': 'All',
-                               'showlegend':True}])
+	button_all = dict(label = 'All',
+					  method = 'update',
+					  args = [{'visible': df.columns.isin(df.columns),
+							   'title': 'All',
+							   'showlegend':True}])
 
-    def create_layout_button(column):
-        return dict(label = column,
-                    method = 'update',
-                    args = [{'visible': df.columns.isin([column]),
-                             'title': column,
-                             'showlegend': True}])
+	def create_layout_button(column):
+		return dict(label = column,
+					method = 'update',
+					args = [{'visible': df.columns.isin([column]),
+							 'title': column,
+							 'showlegend': True}])
 
-    fig.update_layout(
-        updatemenus=[go.layout.Updatemenu(
-            active = 0,
-            buttons = ([button_all] * addAll) + list(df.columns.map(lambda column: create_layout_button(column)))
-            )
-        ],
-        paper_bgcolor='rgba(0,0,0,1)',
-        title = graph_title,
-        xaxis= dict(title= x_title,ticklen= 5,zeroline= False),
-        font=dict(
-            family="Courier New, monospace",
-            size=16,
-            color="gray"
-            )
-    )
+	fig.update_layout(
+		updatemenus=[go.layout.Updatemenu(
+			active = 0,
+			buttons = ([button_all] * addAll) + list(df.columns.map(lambda column: create_layout_button(column)))
+			)
+		],
+		paper_bgcolor='rgba(20,20,20,1)',
+		title = graph_title,
+		xaxis= dict(title= x_title,ticklen= 5,zeroline= False),
+		font=dict(
+			family="Arial",
+			size=15,
+			color="rgb(150, 150, 150)"
+			)
+	)
 
-    new_filename = "templates/" + filename
-    fig.write_html(new_filename)
+	new_filename = "templates/" + filename
+	fig.write_html(new_filename)
 
+
+
+def multi_plot_scatter(df, filename, graph_title, x_title, addAll = True):
+	fig = go.Figure()
+
+	colors = ['rgba(192, 0, 0, 1)', 'rgba(50, 52, 170, 1)', 'rgba(155, 102, 193, .7)']
+
+	for ind, column in enumerate(df.columns.to_list()):
+		fig.add_trace(
+			go.Scatter(
+				x = df.index,
+				y = df[column],
+				name = column,
+				mode='markers',
+				marker_color=colors[ind]
+			)
+		)
+
+	fig.update_traces(mode='markers', marker_line_width=0, marker_size=15, marker_opacity=0.8)
+	fig.update_layout(
+		title=graph_title, 
+		yaxis_zeroline=False, 
+		xaxis_zeroline=False,
+		paper_bgcolor='rgba(20, 20, 20, 1)',
+		xaxis=dict(title= x_title, ticklen= 5, zeroline= False),
+		font=dict(
+			family="Arial",
+			size=15,
+			color="wheat"
+		)
+	)
+
+	fig.write_image("demographic_by_gender.svg")
+
+	new_filename = "templates/" + filename
+	fig.write_html(new_filename)
 
 
 
@@ -137,12 +173,12 @@ def time_series():
 @app.route("/correlation", methods = ["GET","POST"])
 def correlation_page():
 	attributes = ['total_cases', 'new_cases', 'total_deaths', 'new_deaths',
-       'total_cases_per_million', 'new_cases_per_million',
-       'total_deaths_per_million', 'new_deaths_per_million',
-       'stringency_index', 'population', 'population_density', 'median_age',
-       'aged_65_older', 'aged_70_older', 'gdp_per_capita', 'cvd_death_rate',
-       'diabetes_prevalence', 'female_smokers', 'male_smokers',
-       'handwashing_facilities', 'hospital_beds_per_100k']
+	   'total_cases_per_million', 'new_cases_per_million',
+	   'total_deaths_per_million', 'new_deaths_per_million',
+	   'stringency_index', 'population', 'population_density', 'median_age',
+	   'aged_65_older', 'aged_70_older', 'gdp_per_capita', 'cvd_death_rate',
+	   'diabetes_prevalence', 'female_smokers', 'male_smokers',
+	   'handwashing_facilities', 'hospital_beds_per_100k']
 	return render_template('correlation.html',attributes=attributes)
 
 
@@ -154,12 +190,12 @@ def corr_coefficient():
 	feature_df = feature_df.replace(np.nan,0)
 	feature_df = feature_df.groupby(['location']).max()
 	attributes = ['total_cases', 'new_cases', 'total_deaths', 'new_deaths',
-       'total_cases_per_million', 'new_cases_per_million',
-       'total_deaths_per_million', 'new_deaths_per_million',
-       'stringency_index', 'population', 'population_density', 'median_age',
-       'aged_65_older', 'aged_70_older', 'gdp_per_capita', 'cvd_death_rate',
-       'diabetes_prevalence', 'female_smokers', 'male_smokers',
-       'handwashing_facilities', 'hospital_beds_per_100k']
+	   'total_cases_per_million', 'new_cases_per_million',
+	   'total_deaths_per_million', 'new_deaths_per_million',
+	   'stringency_index', 'population', 'population_density', 'median_age',
+	   'aged_65_older', 'aged_70_older', 'gdp_per_capita', 'cvd_death_rate',
+	   'diabetes_prevalence', 'female_smokers', 'male_smokers',
+	   'handwashing_facilities', 'hospital_beds_per_100k']
 	if request.method == 'POST':
 		result = request.form 
 	column1 = feature_df[result['attribute1']]
@@ -324,19 +360,19 @@ def hyptesting():
 @app.route("/hyptesting_age", methods = ['POST', 'GET'])
 def hyptesting_age():
 	read1 = pd.DataFrame(
-    [
-        [6404,2],
-        [29183,5],
-        [13249,7],
-        [8621,72],
-        [75018,112],
-        [103480,622],
-        [69622,1381],
-        [35957,2764],
-        [22981,4146]
-    ],
-    index=["0s","10s","20s","30s","40s","50s","60s","70s","80s"],
-    columns=["CONFIRMED","DEATHS"])
+	[
+		[6404,2],
+		[29183,5],
+		[13249,7],
+		[8621,72],
+		[75018,112],
+		[103480,622],
+		[69622,1381],
+		[35957,2764],
+		[22981,4146]
+	],
+	index=["0s","10s","20s","30s","40s","50s","60s","70s","80s"],
+	columns=["CONFIRMED","DEATHS"])
 
 
 	print(read1)
@@ -350,9 +386,9 @@ def hyptesting_age():
 	critical_value = chi2.ppf(p, dof)
 	print('chi=%.6f, critical value=%.6f\n' % (chi, critical_value))
 	if chi > critical_value:
-	    retval = """At %.2f level of significance, we reject the null hypotheses and accept Alternate Hypothesis. They are dependent.""" % (significance)
+		retval = """At %.2f level of significance, we reject the null hypotheses and accept Alternate Hypothesis. They are dependent.""" % (significance)
 	else:
-	    retval = """At %.2f level of significance, we accept the null hypotheses. 
+		retval = """At %.2f level of significance, we accept the null hypotheses. 
 	They are independent.""" % (significance)
 
 	return render_template('hypothesis.html', retval = retval)
