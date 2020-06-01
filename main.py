@@ -170,6 +170,30 @@ def time_series():
 
 
 
+@app.route("/prediction", methods = ["GET", "POST"])
+def prediction():
+	countries = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Argentina', 'Armenia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Benin', 'Bolivia', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Cabo Verde', 'Cambodia', 'Cameroon', 'Chad', 'Chile', 'China', 'Colombia', 'Congo (Brazzaville)', 'Congo (Kinshasa)', 'Costa Rica',  'Cuba', 'Cyprus', 'Czechia', 'Djibouti',  'Ecuador', 'Egypt', 'El Salvador', 'Estonia', 'Ethiopia', 'Finland', 'Gabon', 'Georgia', 'Germany', 'Greece','Guatemala', 'Guinea',  'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kuwait', 'Kyrgyzstan', 'Latvia', 'Lebanon', 'Liberia', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Madagascar', 'Malaysia','Malta', 'Mauritania', 'Mauritius', 'Mexico', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco',  'Nepal', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'Norway', 'Oman', 'Pakistan', 'Panama', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'San Marino', 'Saudi Arabia', 'Senegal', 'Serbia', 'Singapore', 'Slovakia', 'Slovenia', 'Somalia', 'South Africa', 'Spain', 'Sri Lanka', 'Sudan', 'Sweden', 'Switzerland', 'Taiwan', 'Tanzania', 'Thailand', 'Togo', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'United States of America', 'Uganda', 'Ukraine', 'United Arab Emirates' ]
+	return render_template('prediction.html',countries = countries)
+
+
+@app.route("/prediction_country", methods = ["GET", "POST"])
+def prediction_country():
+	if request.method == 'POST':
+		result = request.form
+	country = result['country']
+	df = pd.read_csv('Datasets/prediction_data.csv')
+	df = df.set_index('Dates')
+	new_df = df[country]
+	data = go.Scatter(x = new_df.index, y=new_df.values, mode="lines")
+	layout = dict(title = 'Confirmed and Deceased in different age groups', xaxis= dict(title= 'Age Groups',ticklen= 5,zeroline= False), paper_bgcolor='rgba(20,20,20,1)', font=dict(family="Arial",size=15,color="rgb(150, 150, 150)"))
+	fig = go.Figure(data = data, layout = layout)
+	new_filename = "templates/" + "country_pred.html"
+	fig.write_html(new_filename)
+	return render_template('prediction_op.html',filename="country_pred.html")
+
+
+
+
 @app.route("/correlation", methods = ["GET","POST"])
 def correlation_page():
 	attributes = ['total_cases', 'new_cases', 'total_deaths', 'new_deaths',
@@ -242,7 +266,7 @@ def timeseries_world():
 	df = df.rename(columns={"Country/Region":"Country"})
 	world_df = df.groupby(['Date']).sum()
 	multi_plot_line(world_df, "world_plot.html", "Worldwide Covid Cases", "Date")
-	return render_template('world_plot.html')
+	return render_template('time_series_op.html',filename='world_plot.html')
 
 
 @app.route("/timeseries_country", methods = ['POST','GET'])
@@ -257,7 +281,7 @@ def timeseries_country():
 	new_df = new_df.T
 	temp = new_df[country].T
 	multi_plot_line(temp, "country_plot.html", "Covid Cases in " + country, "Date")
-	return render_template('country_plot.html')
+	return render_template('time_series_op.html',filename='country_plot.html')
 
 
 @app.route("/timeseries_date", methods = ['POST','GET'])
@@ -272,13 +296,13 @@ def timeseries_date():
 	new_df = new_df.T
 	temp = new_df[date].T
 	multi_plot_line(temp, "date_plot.html", "Covid Cases upto date " + date, "Country")
-	return render_template('date_plot.html')
+	return render_template('time_series_op.html',filename='date_plot.html')
 
 
 
 @app.route("/geographic", methods = ['POST','GET'])
 def geographic_analysis():
-	return render_template('map_dark.html')
+	return render_template('geographic_op.html',filename='map_dark.html')
 
 
 @app.route("/demographic", methods = ['POST','GET'])
@@ -335,42 +359,6 @@ def age_analysis():
 
 
 
-'''
-@app.route("/gender", methods = ['POST'])
-def gender_analysis():
-	if request.method == 'POST':
-		result = request.form
-	
-	country = result['country']
-	plot = result['plot']
-	img_cnf = io.BytesIO()
-	img_dec = io.BytesIO()
-	time_gender = pd.read_csv('Datasets/coronavirusdataset/TimeGender.csv')
-	time_gender = time_gender.drop(['time'],axis=1)
-	time_gender.head()
-	cnf = time_gender.drop(['deceased'],axis=1)
-	dec = time_gender.drop(['confirmed'],axis=1)
-	cnf.groupby('sex').sum().plot(kind=plot)
-	
-	plt.savefig(img_cnf, format='png', bbox_inches = "tight")
-	img_cnf.seek(0)
-	plot_url_cnf = base64.b64encode(img_cnf.getvalue()).decode()
-	
-	dec.groupby('sex').sum().plot(kind=plot)
-
-	plt.savefig(img_dec, format='png', bbox_inches = "tight")
-	img_dec.seek(0)
-	plot_url_dec = base64.b64encode(img_dec.getvalue()).decode()
-	
-
-	plot_url = []
-	plot_url.append(plot_url_cnf)
-	plot_url.append(plot_url_dec)
-
-
-	return render_template('gender_analysis.html', plot_url = plot_url, country = country)
-'''
-
 @app.route("/gender", methods = ['POST','GET'])
 def gender_analysis():
 	time_gender = pd.read_csv('Datasets/TimeGender.csv')
@@ -404,25 +392,23 @@ def hyptesting_age():
 	],
 	index=["0s","10s","20s","30s","40s","50s","60s","70s","80s"],
 	columns=["CONFIRMED","DEATHS"])
-
-
-	print(read1)
-
-
-	print("\nDependence between Age, confirmed cases and Number of deaths\n")
+	time_age = pd.read_csv('Datasets/TimeAge.csv')
+	time_age = time_age.drop(['time'],axis=1)
+	age = time_age.groupby(['age']).sum()
+	multi_plot_scatter(age,"age_plotly.html","Agewise analysis", "Age groups")
+	filename = "age_plotly.html"
 	chi, pval, dof, exp = chi2_contingency(read1)
-	print('p-value is: ', pval)
 	significance = 0.05
 	p = 1 - significance
 	critical_value = chi2.ppf(p, dof)
-	print('chi=%.6f, critical value=%.6f\n' % (chi, critical_value))
+	#print('chi=%.6f, critical value=%.6f\n' % (chi, critical_value))
 	if chi > critical_value:
 		retval = """At %.2f level of significance, we reject the null hypotheses and accept Alternate Hypothesis. They are dependent.""" % (significance)
 	else:
 		retval = """At %.2f level of significance, we accept the null hypotheses. 
 	They are independent.""" % (significance)
 
-	return render_template('hypothesis.html', retval = retval)
+	return render_template('hypothesis.html', retval = retval, filename = filename)
 
 
 

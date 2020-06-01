@@ -166,7 +166,7 @@
 		      <li><a href="/">Home</a></li>
 		      <li><a href="time_series">Timeseries</a></li>
 		      <li><a href="geographic">Geographic</a></li>
-		      <li><a href="demographic">Demographic</a></li>
+		      <li><a href="prediction">Prediction</a></li>
 		      <li><a href="correlation_heatmap">Correlation</a></li>
 		      <li class="active"><a href="hyptesting">Hyp Testing</a></li>
 		    </ul>
@@ -212,6 +212,18 @@
 
 							typeWriter()
 						</script>
+
+					{% endif %}
+
+					{% if filename %}
+						<div class="container">
+		
+							<div class="row" style="margin-bottom: 1.5em">
+								<div class="col-md-12" style="margin-top: 0em; margin-left: 0em; padding: 0em; margin-bottom: 4em;">
+									{% include filename %}
+								</div>
+							</div>
+						</div>
 
 					{% endif %}
 				</p>
