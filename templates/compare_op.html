@@ -183,106 +183,17 @@
 		</nav>
 
 		<div class="container">
-		
+			<h3 align="center">Comparison in {{country1}} and {{country2}}</h3>
 			<div class="row" style="margin-bottom: 1.5em">
-
-				<div class="col-sm-1"></div>
-
-				<div class="col-sm-10 analysis">
-					<h3 align="center">Time Series</h3>
-					<h4 align="center">WorldWide</h4>
-					<br>
-					<form action="http://localhost:5000/timeseries" method="POST">
-						<p align="center"><input type="submit" value="Click Here"></p>
-					</form>
+				<div class="col-md-12" style="margin-top: 0em; margin-left: 0em; padding: 0em; margin-bottom: 4em;">
+					{% include filename1 %}
 				</div>
-
-				<div class="col-sm-1"></div>
-
 			</div>
-
 			<div class="row" style="margin-bottom: 1.5em">
-
-				<div class="col-sm-1"></div>
-
-				<div class="col-sm-5 analysis">
-					<h3 align="center">Time Series</h3>
-					<h4 align="center">By Country</h4>
-					<form action="http://localhost:5000/timeseries_country" method="POST">
-						<div class="form-input-group row">
-				            <select class="form-control selectpicker" data-live-search="true" id="country" name="country">
-				              {% for o in countries %}
-				              <option id = "country" name = "country" data-tokens="{{ o }}" value="{{ o }}">{{ o }}</option>
-				              {% endfor %}
-				            </select>
-					    </div>
-					    <h5 align="center"></h5>
-					    <p align="center"><input type="submit" value="Click Here"></p>
-					</form>
+				<div class="col-md-12" style="margin-top: 0em; margin-left: 0em; padding: 0em; margin-bottom: 4em;">
+					{% include filename2 %}
 				</div>
-
-				<div class="col-sm-5 analysis">
-					<h3 align="center">Time Series</h3>
-					<h4 align="center">By Date</h4>
-					<form action="http://localhost:5000/timeseries_date" method="POST">
-						<div class="form-input-group row">
-				            <select class="form-control selectpicker" data-live-search="true" id="date" name="date">
-				              {% for o in dates %}
-				              <option id = "date" name = "date" data-tokens="{{ o }}" value="{{ o }}">{{ o }}</option>
-				              {% endfor %}
-				            </select>
-					    </div>
-					    <h5 align="center"></h5>
-					    <p align="center"><input type="submit" value="Click Here"></p>
-					</form>
-				</div>
-
-				<div class="col-sm-1"></div>
-			</div>
-
-			<div class="row" style="margin-bottom: 1.5em">
-
-				<div class="col-sm-1"></div>
-
-				<div class="col-sm-10 analysis">
-					<h3 align="center">Time Series</h3>
-					<h4 align="center">Compare cases in two countries</h4>
-					<br>
-					<form action="http://localhost:5000/compare" method="POST">
-						<div class="form-input-group row">
-				            <select class="form-control selectpicker" data-live-search="true" id="country1" name="country1">
-				              {% for o in countries %}
-				              <option id = "country1" name = "country1" data-tokens="{{ o }}" value="{{ o }}">{{ o }}</option>
-				              {% endfor %}
-				            </select>
-				        </div>
-				        <div class="form-input-group row">
-				            <select class="form-control selectpicker" data-live-search="true" id="country2" name="country2">
-				              {% for o in countries %}
-				              <option id = "country2" name = "country2" data-tokens="{{ o }}" value="{{ o }}">{{ o }}</option>
-				              {% endfor %}
-				            </select>
-					    </div>
-						<p align="center"><input type="submit" value="Click Here"></p>
-					</form>
-				</div>
-
-				<div class="col-sm-1"></div>
-
 			</div>
 		</div>
-		<!--
-		<div class="footer">
-			<p><h3 align="center"><font color="grey">Dashboard created by</h3></p>
-			<p><h3 align="center"><font color="grey">Saket   Rohan   Aleena   Animish   Pritam</h3></p>
-		</div>
-		-->
-
-		<script>
-			$(function() {
-  				$('.selectpicker').selectpicker('refresh');
-			});
-		</script>
-
 	</body>
 </html>
