@@ -182,34 +182,50 @@
 			margin-bottom: 1.5em;
 		}
 
-		h3 span a {
-			color: burlywood;
-			cursor: pointer;
-			text-decoration: none;
+		div.tab {
+			border-bottom: 1px solid rgb(40, 40, 40);
+			margin: 0;
+			padding: 0;
+			display: inline-flex;
+			margin-bottom: 1em;
+			box-sizing: content-box;
+			font-family: 'Poppins', sans-serif;
+			font-size: 20px;
+			height: auto;
+			max-height: 32px;
 		}
 
-		h3 span:nth-child(2) a {
-			color: burlywood;
-			cursor: pointer;
+		a.switch_link {
 			text-decoration: none;
-		}
-
-		h3 span:nth-child(1) a {
-			color: burlywood;
-			cursor: pointer;
-			text-decoration: none;
-		}
-
-		h3 span.active_span a {
-			color: rgb(200, 100, 100);
-			text-decoration: none;
+			outline: none;
 			cursor: pointer;
 		}
 
+		div.inactive_span {
+			background-color: rgb(40, 40, 40);
+		}
+
+		div.inactive_span a {
+			color: rgb(200, 150, 100);
+		}
+
+		div.active_span {
+			background-color: rgb(20, 20, 20);
+		}
+
+		div.active_span a {
+			background-color: inherit;
+			color: rgb(200, 120, 120);
+		}
+
+		#heatmap, #correlation {
+			/*margin-right: 10px;*/
+			padding: 2px 1em 0 1em;
+		}
 	</style>
 	<body>
 
-		<nav class="navbar navbar-inverse">
+		<nav id="header_nav" class="navbar navbar-inverse">
 		  <div class="container-fluid">
 		  	<div class="navbar-header">
 		      <a class="navbar-brand" style="color: #ffffcc;" href="#">COVID Dashboard</a>
@@ -228,13 +244,14 @@
 		<div class="container">
 
 			<div class="row">
-					<h3 align="left">
 
-						{% if heatmap %}
-						<span id="heatmap" class="active_span"><a class="switch_link" href="#">Show Heatmap</a></span> | <span id="correlation"><a class="switch_link" href="correlation">Find Correlation</a></span></h3><br>
-						{% else %}
-						<span id="heatmap"><a href="correlation_heatmap" class="switch_link">Show Heatmap</a></span> | <span id="correlation" class="active_span"><a class="switch_link" href="#">Find Correlation</a></span></h3><br><br>
-						{% endif %}
+				<div class="tab">
+					{% if heatmap %}
+					<div id="heatmap" class="active_span"><a class="switch_link" href="#">Show Heatmap</a></div><div class="inactive_span" id="correlation"><a class="switch_link" href="correlation">Find Correlation</a></div><br>
+					{% else %}
+					<div class="inactive_span" id="heatmap"><a href="correlation_heatmap" class="switch_link">Show Heatmap</a></div><div class="active_span" id="correlation" class="active_span"><a class="switch_link" href="#">Find Correlation</a></div><br><br>
+					{% endif %}
+				</div>
 
 
 				{% if correlation %}

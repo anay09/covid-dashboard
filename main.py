@@ -134,7 +134,7 @@ def multi_plot_scatter(df, filename, graph_title, x_title, addAll = True):
 		font=dict(
 			family="Arial",
 			size=15,
-			color="wheat"
+			color="rgb(200, 200, 200)"
 		)
 	)
 
@@ -183,7 +183,7 @@ def prediction_country():
 	df = df.set_index('Dates')
 	new_df = df[country]
 	data = go.Scatter(x = new_df.index, y=new_df.values, mode="lines")
-	layout = dict(title = 'Prediction of cases for next 10 days', xaxis= dict(title= 'Date',ticklen= 5,zeroline= False), yaxis = dict(title= 'No of cases'),paper_bgcolor='rgba(20,20,20,1)', font=dict(family="Arial",size=15,color="rgb(150, 150, 150)"))
+	layout = dict(title = country.upper() + ' : Prediction of cases for next 10 days', xaxis= dict(title= 'Date',ticklen= 5,zeroline= False), yaxis = dict(title= 'No of cases'),paper_bgcolor='rgba(20,20,20,1)', font=dict(family="Arial",size=15,color="rgb(200, 200, 200)"))
 	fig = go.Figure(data = data, layout = layout)
 	new_filename = "templates/" + "country_pred.html"
 	fig.write_html(new_filename)

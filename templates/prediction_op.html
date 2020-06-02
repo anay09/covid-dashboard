@@ -20,6 +20,8 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Overpass">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tenali+Ramakrishna">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	</head>
 	<style>
 		::-webkit-scrollbar {
@@ -163,10 +165,41 @@
 			width: 60%;
 			margin: 2em auto;
 		}
+
+		.back_button {
+			outline: none;
+			cursor: pointer;
+			background-color: rgb(60, 60, 60);
+			border: 1px solid rgb(60, 60, 60);
+			border-radius: 4px;
+			padding: 4px 10px;
+			font-size: 15px;
+			color: whitesmoke;
+			margin-bottom: 1em;
+			border-left: 2px solid rgb(30, 30, 30);
+
+			background: linear-gradient(to right, rgb(30, 30, 30) 50%, rgb(60, 60, 60) 50%);
+			background-size: 200% 100%;
+			background-position: bottom right;
+    		transition: all 0.3s ease-out;
+		}
+
+		.back {
+			color: whitesmoke;
+			cursor: pointer;
+			/*font-size: 20px;*/
+		}
+
+		.back_button:hover {
+			background-position: bottom left;
+			color: white;
+			border: 1px solid rgb(30, 30, 30);
+			border-left: 2px solid rgb(30, 30, 30);
+		}
 	</style>
 	<body>
 
-		<nav class="navbar navbar-inverse">
+		<nav id="header_nav" class="navbar navbar-inverse">
 		  <div class="container-fluid">
 		  	<div class="navbar-header">
 		      <a class="navbar-brand" style="color: #ffffcc;" href="#">COVID Dashboard</a>
@@ -186,7 +219,11 @@
 		
 			<div class="row" style="margin-bottom: 1.5em">
 				<div class="col-md-12" style="margin-top: 0em; margin-left: 0em; padding: 0em; margin-bottom: 4em;">
+
+					<button class="back_button" onclick="history.go(-1)"><i class="back fa fa-arrow-circle-o-left" aria-hidden="true"></i> Go Back</button>
+
 					{% include filename %}
+
 				</div>
 			</div>
 		</div>
