@@ -62,6 +62,36 @@ def multi_plot_line(df, filename, graph_title, x_title, addAll = True):
 	fig.write_html(new_filename)
 
 
+def multi_stacked_plot_line(dfs, subjects, filenames, graph_title, x_title):
+	fig = [ None for i in range(len(dfs[0].columns.to_list()))]
+
+	for ind, column in enumerate(dfs[0].columns.to_list()):
+		fig[ind] = go.Figure()
+
+		for ind_sub, sub in enumerate(subjects):
+			fig[ind].add_trace(
+				go.Scatter(
+					x = dfs[ind_sub].index,
+					y = dfs[ind_sub][column],
+					mode='lines',
+					name = sub
+				)
+			)
+
+		fig[ind].update_layout(
+			paper_bgcolor='rgba(20,20,20,1)',
+			title = graph_title + filenames[ind].split(".")[0].upper(),
+			xaxis=dict(title=x_title,ticklen= 5,zeroline= False),
+			font=dict(
+				family="Arial",
+				size=15,
+				color="rgb(180, 180, 180)"
+			)
+		)
+
+		fig[ind].write_html("templates/" + filenames[ind])
+
+
 def multi_plot_bar(df, filename, graph_title, x_title, addAll = True):
 	fig = go.Figure()
 
@@ -288,10 +318,28 @@ def timeseries_compare():
 	new_df = df.groupby(['Country','Date']).max()
 	new_df = new_df.T
 	temp1 = new_df[country1].T
-	multi_plot_line(temp1, "country_plot1.html", "Covid Cases in " + country1, "Date")
+	# multi_plot_line(temp1, "country_plot1.html", "Covid Cases in " + country1, "Date")
 	temp2 = new_df[country2].T
-	multi_plot_line(temp2, "country_plot2.html", "Covid Cases in " + country2, "Date")
-	return render_template('compare_op.html', filename1='country_plot1.html', filename2='country_plot2.html',country1=country1,country2=country2)
+	# multi_plot_line(temp2, "country_plot2.html", "Covid Cases in " + country2, "Date")
+	multi_stacked_plot_line([temp1, temp2], [country1, country2], ["confirmed.html", "recovered.html", "death.html", "active.html"], "COVID Cases : ", "Date")
+	return render_template('compare_op.html', filename1="confirmed.html", country1=country1, country2=country2)
+
+
+@app.route("/compare_recovered", methods = ['POST','GET'])
+def compare_recovered():
+	return render_template('recovered.html')
+
+@app.route("/compare_death", methods = ['POST','GET'])
+def compare_death():
+	return render_template('death.html')
+
+@app.route("/compare_active", methods = ['POST','GET'])
+def compare_active():
+	return render_template('active.html')
+
+@app.route("/compare_confirmed", methods = ['POST','GET'])
+def compare_confirmed():
+	return render_template('confirmed.html')
 
 
 @app.route("/timeseries_date", methods = ['POST','GET'])

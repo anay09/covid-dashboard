@@ -198,6 +198,55 @@
 			border-left: 2px solid rgb(30, 30, 30);
 		}
 
+
+
+		.bootstrap-select {
+		  max-width: 200px;
+		}
+
+		.bootstrap-select .btn {
+		  background-color: #141414;
+		  border-style: solid;
+		  border-left-width: 3px;
+		  border-left-color: rgb(100, 100, 100);
+		  border-top: none;
+		  border-bottom: none;
+		  border-right: none;
+		  color: white;
+		  font-weight: 200;
+		  padding: 7px 12px;
+		  font-size: 15px;
+		  /*margin-bottom: 10px;*/
+		  -webkit-appearance: none;
+		  -moz-appearance: none;
+		  appearance: none;
+		}
+
+		.bootstrap-select .dropdown-menu {
+		  margin: 15px 0 0;
+		  background-color: rgb(30, 30, 30);
+		  color: wheat;
+		}
+
+		.bootstrap-select .dropdown-menu>li>a {
+			color: rgb(200, 200, 180);
+		}
+
+		.bootstrap-select .dropdown-menu>li>a:hover {
+			color: rgb(50, 10, 10);
+		}
+
+		.dropdown-item {
+			color: wheat;
+		}
+
+		select::-ms-expand {
+		  /* for IE 11 */
+		  display: none;
+		}
+
+
+
 	</style>
 	<body>
 
@@ -222,24 +271,55 @@
 			<div class="row">
 				<button class="back_button" onclick="history.go(-1)"><i class="back fa fa-arrow-circle-o-left" aria-hidden="true"></i> Go Back</button>
 
-				<h3 style="margin-top: 0" align="center">Comparison in {{country1}} and {{country2}}</h3>
+				<h3 style="margin-top: 0" align="center">Comparison b/w {{country1}} and {{country2}}</h3>
 			</div>
 
+			<div class="row" style="margin-bottom: 1em;">
+				<p style="font-family: 'Rubik', sans-serif; font-size: 13px; color: rgb(120, 120, 120);">Pick a case</p>
+				<select id="case" class="selectpicker case">
+					<option value="1">Confirmed</option>
+					<option value="2">Recovered</option>
+					<option value="3">Death</option>
+					<option value="4">Active</option>
+				</select>
+			</div>
 			
-			<div class="row" style="margin-bottom: 1.5em">
-				<div class="col-md-12" style="margin-top: 0em; margin-left: 0em; padding: 0em; margin-bottom: 4em;">
+			<div class="row" style="margin-bottom: 1.5em" id="chart">
+				<div class="inc_file col-md-12" style="margin-top: 0em; margin-left: 0em; padding: 0em; margin-bottom: 4em; font-size: 22px; color: white; font-family: 'Cabin', sans-serif;">
 
 					{% include filename1 %}
 
 				</div>
 			</div>
-			<div class="row" style="margin-bottom: 1.5em">
-				<div class="col-md-12" style="margin-top: 0em; margin-left: 0em; padding: 0em; margin-bottom: 4em;">
-
-					{% include filename2 %}
-
-				</div>
-			</div>
 		</div>
+
+		<script>
+			$(function() {
+  				$('.selectpicker').selectpicker('refresh');
+			});
+
+			$(window).on("load", () => {
+
+				$(".case").on("change", () => {
+					$(".inc_file").html("Loading . . .")
+					let ind = $("#case").val();
+					// console.log(ind);
+
+					if (ind == 1) {
+						$(".inc_file").load("compare_confirmed")
+					} else if (ind == 2) {
+						$(".inc_file").load("compare_recovered")
+					} else if (ind == 3) {
+						$(".inc_file").load("compare_death")
+					} else if (ind == 4) {
+						$(".inc_file").load("compare_active")
+					}
+
+					window.location.href = "#chart";
+
+				})
+			})
+		</script>
+
 	</body>
 </html>
