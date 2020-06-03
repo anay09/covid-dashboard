@@ -459,7 +459,7 @@ def hyptesting_age():
 	critical_value = chi2.ppf(p, dof)
 	#print('chi=%.6f, critical value=%.6f\n' % (chi, critical_value))
 	if chi > critical_value:
-		retval = """At %.2f level of significance, we reject the null hypotheses and accept Alternate Hypothesis. They are dependent.""" % (significance)
+		retval = """Thus for South Korea we can say at %.2f level of significance that death of a person due to corona depends on his age.""" % (p)
 	else:
 		retval = """At %.2f level of significance, we accept the null hypotheses. 
 	They are independent.""" % (significance)
